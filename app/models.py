@@ -102,6 +102,10 @@ class Application(Base):
         back_populates="application", cascade="all, delete-orphan", order_by="ApplicationEvent.id"
     )
 
+    # The ORM adds "WHERE version = <loaded version>" to every UPDATE and bumps it, so two
+    # concurrent edits cannot both win (the loser gets StaleDataError).
+    __mapper_args__ = {"version_id_col": version}
+
 
 class ChecklistItem(Base):
     __tablename__ = "checklist_items"

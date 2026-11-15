@@ -180,6 +180,17 @@ def cancel_pending(session: Session, application_id: int, kinds: set[str] | None
     return int(result.rowcount)  # type: ignore[attr-defined]
 
 
+def cancel_by_dedupe_prefix(session: Session, prefix: str) -> int:
+    """Cancel queued jobs whose dedupe_key starts with prefix, e.g. one reminder template."""
+    result = session.execute(
+        update(Job)
+        .where(Job.status == "queued", Job.dedupe_key.startswith(prefix, autoescape=True))
+        .values(status="cancelled")
+        .execution_options(synchronize_session=False)
+    )
+    return int(result.rowcount)  # type: ignore[attr-defined]
+
+
 @dataclass
 class RunStats:
     claimed: int = 0
