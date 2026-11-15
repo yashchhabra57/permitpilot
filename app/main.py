@@ -4,7 +4,8 @@ import logging
 from pathlib import Path
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from sqlalchemy.orm.exc import StaleDataError
 
@@ -20,6 +21,7 @@ from app.workflow import WorkflowError
 log = logging.getLogger(__name__)
 
 SEED_FILE = Path(__file__).parent / "seed" / "lakeport_residential.txt"
+STATIC_DIR = Path(__file__).parent / "static"
 
 # Workflow error code -> HTTP status.
 WORKFLOW_STATUS = {
@@ -95,4 +97,10 @@ def create_app(
         return {"status": "ok"}
 
     app.include_router(router)
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+    @app.get("/", include_in_schema=False)
+    def index() -> FileResponse:
+        return FileResponse(STATIC_DIR / "index.html")
+
     return app

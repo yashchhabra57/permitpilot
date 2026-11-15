@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PermitPilot</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <h1>PermitPilot</h1>
+    <form id="search-form" role="search">
+      <input id="search-q" type="search" placeholder="Ask the code: how deep do deck footings go?" aria-label="Search the ordinance" minlength="2" required>
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <section id="search-results" class="card hidden" aria-live="polite"></section>
+
+  <main>
+    <aside class="card">
+      <h2>Applications</h2>
+      <ul id="app-list" class="app-list"></ul>
+      <details id="new-app">
+        <summary>New application</summary>
+        <form id="new-app-form">
+          <label>Permit type <select name="permit_type" id="permit-type"></select></label>
+          <label>Project address <input name="project_address" required minlength="3"></label>
+          <label>Contractor <input name="contractor_name" required minlength="2"></label>
+          <label>Email <input name="contractor_email" type="email" required></label>
+          <button type="submit">Create</button>
+        </form>
+      </details>
+    </aside>
+
+    <section id="detail" class="card">
+      <p class="muted">Select or create an application.</p>
+    </section>
+  </main>
+
+  <section class="card">
+    <h2>Reminder queue</h2>
+    <form id="run-form" class="inline">
+      <label>Run due jobs as of (UTC) <input id="as-of" type="datetime-local"></label>
+      <button type="submit">Run worker</button>
+      <span id="run-result" class="muted"></span>
+    </form>
+    <div id="notifications"></div>
+  </section>
+
+  <p id="toast" role="status" class="toast hidden"></p>
+  <script src="/static/app.js"></script>
+</body>
+</html>
