@@ -149,7 +149,7 @@ def fail(
     cap: int,
     permanent: bool = False,
 ) -> str:
-    """Record a failure and either reschedule with backoff or dead-letter. Returns the new status."""
+    """Record a failure, then reschedule with backoff or dead-letter. Returns the new status."""
     attempts = session.scalar(select(Job.attempts).where(Job.id == job.id)) or job.attempts
     if permanent or attempts >= job.max_attempts:
         values: dict[str, Any] = {"status": "dead", "finished_at": now}

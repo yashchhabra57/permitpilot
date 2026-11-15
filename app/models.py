@@ -104,7 +104,7 @@ class Application(Base):
 
     # The ORM adds "WHERE version = <loaded version>" to every UPDATE and bumps it, so two
     # concurrent edits cannot both win (the loser gets StaleDataError).
-    __mapper_args__ = {"version_id_col": version}
+    __mapper_args__ = {"version_id_col": version}  # noqa: RUF012
 
 
 class ChecklistItem(Base):

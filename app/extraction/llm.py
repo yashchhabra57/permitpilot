@@ -90,9 +90,7 @@ class LLMExtractor:
             raise RuntimeError("model returned no structured output")
         return self.ground(parsed, chunks)
 
-    def ground(
-        self, parsed: LLMExtraction, chunks: list[ChunkInput]
-    ) -> list[ExtractedRequirement]:
+    def ground(self, parsed: LLMExtraction, chunks: list[ChunkInput]) -> list[ExtractedRequirement]:
         by_section = {c.section: c for c in chunks}
         out: list[ExtractedRequirement] = []
         seen: set[tuple[int, str]] = set()

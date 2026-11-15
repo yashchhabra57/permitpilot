@@ -55,13 +55,17 @@ def req(section: str, quote: str, **kw: Any) -> LLMRequirement:
 
 
 def response_with(*items: LLMRequirement, stop_reason: str = "end_turn") -> Any:
-    return SimpleNamespace(parsed_output=LLMExtraction(requirements=list(items)), stop_reason=stop_reason)
+    return SimpleNamespace(
+        parsed_output=LLMExtraction(requirements=list(items)), stop_reason=stop_reason
+    )
 
 
 def test_grounded_items_are_kept_and_ungrounded_are_rejected() -> None:
     messages = FakeMessages(
         response_with(
-            req("14-201", "Footings for decks shall extend at least 48 inches below finished grade."),
+            req(
+                "14-201", "Footings for decks shall extend at least 48 inches below finished grade."
+            ),
             # Paraphrase, not verbatim: rejected.
             req("14-201", "Deck footings must be 4 feet deep."),
             # Section that does not exist: rejected.

@@ -44,6 +44,8 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+# A whitespace-separated stopword string reads better than a 40-item list literal.
+ignore = ["SIM905"]
 
 [tool.mypy]
 python_version = "3.12"

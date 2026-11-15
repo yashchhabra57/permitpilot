@@ -18,9 +18,6 @@ import re
 from collections import Counter
 from collections.abc import Hashable, Sequence
 from dataclasses import dataclass
-from typing import Generic, TypeVar
-
-K = TypeVar("K", bound=Hashable)
 
 STOPWORDS = frozenset(
     """a an and are as at be by for from has have i if in is it its my of on or that the this
@@ -52,12 +49,12 @@ def tokenize(text: str) -> list[str]:
 
 
 @dataclass(frozen=True)
-class Hit(Generic[K]):
+class Hit[K: Hashable]:
     key: K
     score: float
 
 
-class BM25Index(Generic[K]):
+class BM25Index[K: Hashable]:
     def __init__(self, docs: Sequence[tuple[K, str]], k1: float = 1.5, b: float = 0.75) -> None:
         self.k1 = k1
         self.b = b

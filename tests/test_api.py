@@ -92,7 +92,10 @@ def test_search(client: TestClient) -> None:
 
 
 def test_ingest_new_ordinance(client: TestClient) -> None:
-    text = "§ 1 Pools.\nA pool permit application must include a fence plan. The permit fee for a pool is $80."
+    text = (
+        "§ 1 Pools.\nA pool permit application must include a site plan. "
+        "The permit fee for a pool is $80."
+    )
     r = client.post("/api/ordinances", json={"jurisdiction": "Elm", "title": "Pools", "text": text})
     assert r.status_code == 201
     body = r.json()
@@ -174,7 +177,7 @@ def test_list_applications_filters_by_state(client: TestClient) -> None:
     a = create(client)
     create(client, "fence")
     act(client, a, "withdraw")
-    assert [x["id"] for x in client.get("/api/applications", params={"state": "withdrawn"}).json()] == [
-        a["id"]
-    ]
+    assert [
+        x["id"] for x in client.get("/api/applications", params={"state": "withdrawn"}).json()
+    ] == [a["id"]]
     assert len(client.get("/api/applications").json()) == 2

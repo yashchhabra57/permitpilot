@@ -20,7 +20,12 @@ def step(
     session: Session, app: Application, action: str, days: int = 0, **data: object
 ) -> Application:
     apply_transition(
-        session, app, action, app.version, T0 + timedelta(days=days), TransitionInput(**data)  # type: ignore[arg-type]
+        session,
+        app,
+        action,
+        app.version,
+        T0 + timedelta(days=days),
+        TransitionInput(**data),  # type: ignore[arg-type]
     )
     session.commit()
     return app
