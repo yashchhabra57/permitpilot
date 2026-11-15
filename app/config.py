@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     job_backoff_base_seconds: int = 30
     job_backoff_cap_seconds: int = 3600
     seed_on_startup: bool = True
+    # Demo mode allows POST /api/jobs/run-due?as_of=... to fast-forward time. Turn off in prod.
+    demo_mode: bool = True
 
 
 @lru_cache
