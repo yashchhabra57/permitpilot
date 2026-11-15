@@ -19,9 +19,12 @@ from collections import Counter
 from collections.abc import Hashable, Sequence
 from dataclasses import dataclass
 
+# Modal verbs ("shall", "must") appear in almost every ordinance sentence, so they carry no
+# signal and would let a question phrased with "must" favor sentences that also say "must".
 STOPWORDS = frozenset(
     """a an and are as at be by for from has have i if in is it its my of on or that the this
-    to was were will with what when where which who how do does can need any all""".split()
+    to was were will with what when where which who how do does can need any all
+    shall must may go""".split()
 )
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
@@ -100,7 +103,8 @@ def best_sentences(query: str, text: str, limit: int = 2) -> list[str]:
     sentences = [s.strip() for s in _SENTENCE_RE.split(text) if s.strip()]
     ranked = sorted(
         enumerate(sentences),
-        key=lambda pair: (-len(terms & set(tokenize(pair[1]))), pair[0]),
+        # Most query terms first; among equals, the shorter (denser) sentence; then text order.
+        key=lambda pair: (-len(terms & set(tokenize(pair[1]))), len(pair[1]), pair[0]),
     )
     picked = [(i, s) for i, s in ranked[:limit] if terms & set(tokenize(s))]
     return [s for _, s in sorted(picked)]

@@ -72,3 +72,10 @@ def test_best_sentences_returns_matching_sentences_in_document_order() -> None:
         "Deck guards are 36 inches.",
     ]
     assert best_sentences("roof", text) == []
+
+
+def test_best_sentences_prefers_denser_sentence_on_ties() -> None:
+    chunks = chunk_ordinance(SAMPLE.read_text(encoding="utf-8"))
+    decks = next(c for c in chunks if c.section == "14-201")
+    first = best_sentences("how deep must deck footings go", decks.text, limit=1)
+    assert first == ["Footings for decks shall extend at least 48 inches below finished grade."]

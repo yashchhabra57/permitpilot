@@ -72,7 +72,7 @@ stateDiagram-v2
 | AI | Optional LLM extraction with structured outputs (`messages.parse` + Pydantic schema), grounding check, rule-based fallback |
 | Jobs | Database-backed queue with leases, exponential backoff, dead-lettering, dedupe keys |
 | Frontend | Static HTML/CSS/vanilla JS served by FastAPI (light and dark mode) |
-| Quality | pytest (90+ tests, ~94% coverage), ruff, mypy `--strict` |
+| Quality | pytest (89 tests, ~94% coverage), ruff, mypy `--strict` |
 | Ops | GitHub Actions (lint, SQLite matrix on 3.12/3.13, PostgreSQL service job, Docker smoke test), Dockerfile, docker-compose (api + worker + postgres) |
 
 ## Run it
