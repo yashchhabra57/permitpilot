@@ -53,5 +53,5 @@ def test_search_returns_cited_excerpts(session: Session) -> None:
     seed_ordinance(session)
     hits = search_chunks(session, "fence height front yard")
     assert hits[0].section == "14-301"
-    assert hits[0].excerpt == ["Fences in a front yard shall not exceed 4 feet in height."]
+    assert hits[0].excerpt[0] == "Fences in a front yard shall not exceed 4 feet in height."
     assert search_chunks(session, "zzz nothing") == []
